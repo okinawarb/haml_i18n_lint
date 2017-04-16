@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'haml/i18n_lint'
+
+puts Haml::I18nLint::VERSION
