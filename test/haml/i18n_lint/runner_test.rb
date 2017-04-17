@@ -2,7 +2,8 @@ require 'test_helper'
 
 class Haml::I18nLint::RunnerTest < Test::Unit::TestCase
   def setup
-    @runner = Haml::I18nLint::Runner.new
+    options = Haml::I18nLint::Options.new
+    @runner = Haml::I18nLint::Runner.new(options)
   end
 
   def test_run
