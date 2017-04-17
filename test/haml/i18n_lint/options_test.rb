@@ -5,6 +5,15 @@ class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
     @options = Haml::I18nLint::Options.new
   end
 
+  def test_config
+    assert { @options.config.nil? }
+  end
+
+  def test_config=
+    @options.config = 'path/to/config'
+    assert { @options.config == 'path/to/config' }
+  end
+
   def test_files
     assert { @options.files == %w(hi.html.haml) }
   end
