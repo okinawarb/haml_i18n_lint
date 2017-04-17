@@ -1,4 +1,5 @@
 require "haml/i18n_lint/version"
+require "haml/i18n_lint/runner"
 
 module Haml
   module I18nLint
