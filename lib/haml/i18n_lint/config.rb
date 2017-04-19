@@ -13,7 +13,7 @@ module Haml
       end
 
       def files
-        @options.files
+        Dir[*@options.files]
       end
 
       private

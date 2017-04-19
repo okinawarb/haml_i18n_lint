@@ -15,8 +15,7 @@ module Haml
       end
 
       def files
-        files = @files || '**/*.haml'
-        Dir[*files]
+        @files || '**/*.haml'
       end
     end
   end

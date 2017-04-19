@@ -15,13 +15,13 @@ class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
     assert { @options.config == 'path/to/config' }
   end
 
-  def test_files
-    assert { @options.files == %w(hi.html.haml) }
+  def test_default_files
+    assert { @options.files == '**/*.haml' }
   end
 
   def test_files=
     @options.files = 'nothing'
-    assert { @options.files == [] }
+    assert { @options.files == 'nothing' }
   end
 
   def test_config_content
