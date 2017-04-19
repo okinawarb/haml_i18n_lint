@@ -6,12 +6,12 @@ module Haml
       attr_accessor :config
       attr_writer :files
 
-      def load_config(binding)
+      def config_content
         unless config && File.exist?(config)
           raise LoadConfigError, "Config not exist: #{config.inspect}"
         end
 
-        eval(File.read(config), binding)
+        File.read(config)
       end
 
       def files

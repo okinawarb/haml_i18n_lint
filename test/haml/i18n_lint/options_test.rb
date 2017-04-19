@@ -24,21 +24,20 @@ class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
     assert { @options.files == [] }
   end
 
-  def test_load_config
-    tempfile = Tempfile.open { |fp| fp.puts 'hi'; fp }
+  def test_config_content
+    tempfile = Tempfile.open { |fp| fp.puts "hi"; fp }
     @options.config = tempfile.path
-    hi = "hi"
-    assert { @options.load_config(binding) == "hi" }
+    assert { @options.config_content == "hi\n" }
   ensure
     tempfile.close
   end
 
-  def test_load_config_without_set_config
-    assert_raise(Haml::I18nLint::LoadConfigError.new("Config not exist: nil")) { @options.load_config(binding) }
+  def test_config_content_without_set_config
+    assert_raise(Haml::I18nLint::LoadConfigError.new("Config not exist: nil")) { @options.config_content }
   end
 
-  def test_load_config_with_not_exist_path
+  def test_config_content_with_not_exist_path
     @options.config = 'foo'
-    assert_raise(Haml::I18nLint::LoadConfigError.new('Config not exist: "foo"')) { @options.load_config(binding) }
+    assert_raise(Haml::I18nLint::LoadConfigError.new('Config not exist: "foo"')) { @options.config_content }
   end
 end
