@@ -12,6 +12,10 @@ module Haml
         /^[\s]+$/ !~ content && /[A-Za-z]/ =~ content
       end
 
+      def files
+        @options.files
+      end
+
       private
 
       def load_config(config_content)

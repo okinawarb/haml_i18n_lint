@@ -19,6 +19,14 @@ class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
     assert { !@config.match('    ') }
   end
 
+  def test_files
+    assert { @config.files == %w(hi.html.haml) }
+
+    @options.files = ''
+    config = ::Haml::I18nLint::Config.new(@options)
+    assert { config.files == [] }
+  end
+
   def test_load_config_from_options
     options = ::Haml::I18nLint::Options.new
     tempfile = Tempfile.open { |fp| fp.puts "def foo; true; end"; fp }
