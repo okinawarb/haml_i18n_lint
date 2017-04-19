@@ -7,11 +7,7 @@ module Haml
 
       def initialize(options)
         @options = options
-        @config = ::Haml::I18nLint::Config.new
-
-        if @options.config
-          @config.load_config(@options.config_content)
-        end
+        @config = ::Haml::I18nLint::Config.new(@options)
       end
 
       def run

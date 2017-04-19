@@ -1,8 +1,10 @@
 require 'test_helper'
+require 'tempfile'
 
 class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
   def setup
-    @config = Haml::I18nLint::Config.new
+    @options = ::Haml::I18nLint::Options.new
+    @config = ::Haml::I18nLint::Config.new(@options)
   end
 
   def test_match_str
@@ -17,9 +19,15 @@ class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
     assert { !@config.match('    ') }
   end
 
-  def test_load_config
-    @config.load_config('def foo; true; end')
-    assert { @config.foo }
-    assert_raise(NoMethodError) { Haml::I18nLint::Config.new.foo }
+  def test_load_config_from_options
+    options = ::Haml::I18nLint::Options.new
+    tempfile = Tempfile.open { |fp| fp.puts "def foo; true; end"; fp }
+    options.config = tempfile.path
+    config = ::Haml::I18nLint::Config.new(options)
+
+    assert { config.foo }
+    assert_raise(NoMethodError) { @config.foo }
+  ensure
+    tempfile.close
   end
 end
