@@ -6,13 +6,13 @@ class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
     @options = Haml::I18nLint::Options.new
   end
 
-  def test_config
-    assert { @options.config.nil? }
+  def test_config_path
+    assert { @options.config_path.nil? }
   end
 
-  def test_config=
-    @options.config = 'path/to/config'
-    assert { @options.config == 'path/to/config' }
+  def test_config_path=
+    @options.config_path = 'path/to/config'
+    assert { @options.config_path == 'path/to/config' }
   end
 
   def test_default_files
@@ -26,7 +26,7 @@ class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
 
   def test_config_content
     tempfile = Tempfile.open { |fp| fp.puts "hi"; fp }
-    @options.config = tempfile.path
+    @options.config_path = tempfile.path
     assert { @options.config_content == "hi\n" }
   ensure
     tempfile.close
@@ -37,7 +37,7 @@ class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
   end
 
   def test_config_content_with_not_exist_path
-    @options.config = 'foo'
+    @options.config_path = 'foo'
     assert_raise(Haml::I18nLint::LoadConfigError.new('Config not exist: "foo"')) { @options.config_content }
   end
 end

@@ -3,15 +3,15 @@ module Haml
     class LoadConfigError < StandardError; end
 
     class Options
-      attr_accessor :config
+      attr_accessor :config_path
       attr_writer :files
 
       def config_content
-        unless config && File.exist?(config)
-          raise LoadConfigError, "Config not exist: #{config.inspect}"
+        unless config_path && File.exist?(config_path)
+          raise LoadConfigError, "Config not exist: #{config_path.inspect}"
         end
 
-        File.read(config)
+        File.read(config_path)
       end
 
       def files

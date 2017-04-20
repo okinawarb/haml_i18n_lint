@@ -30,7 +30,7 @@ class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
   def test_load_config_from_options
     options = ::Haml::I18nLint::Options.new
     tempfile = Tempfile.open { |fp| fp.puts "def foo; true; end"; fp }
-    options.config = tempfile.path
+    options.config_path = tempfile.path
     config = ::Haml::I18nLint::Config.new(options)
 
     assert { config.foo }

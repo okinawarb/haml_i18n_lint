@@ -3,7 +3,7 @@ module Haml
     class Config
       def initialize(options)
         @options = options
-        if (@options.config)
+        if (@options.config_path)
           load_config(@options.config_content)
         end
       end
