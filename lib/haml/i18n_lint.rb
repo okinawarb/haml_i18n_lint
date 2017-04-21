@@ -1,6 +1,5 @@
 require "haml/i18n_lint/version"
 require "haml/i18n_lint/config"
-require "haml/i18n_lint/match_content"
 require "haml/i18n_lint/options"
 require "haml/i18n_lint/runner"
 
