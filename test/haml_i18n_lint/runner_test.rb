@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class HamlI18nLint::RunnerTest < HamlI18nLint::TestCase
+  include SuppressRunnerOutput
+
   def setup
     options = HamlI18nLint::Options.new
     @runner = HamlI18nLint::Runner.new(options)

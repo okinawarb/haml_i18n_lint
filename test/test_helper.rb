@@ -35,4 +35,10 @@ class HamlI18nLint::TestCase < Test::Unit::TestCase
       Dir.chdir(dir) { yield }
     end
   end
+
+  module SuppressRunnerOutput
+    def run(result)
+      capture_output { return super }
+    end
+  end
 end
