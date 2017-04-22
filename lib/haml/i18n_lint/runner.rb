@@ -14,7 +14,10 @@ module Haml
       def run
         @config.files.all? do |file|
           result = lint(file)
-          result.success?
+
+          next true if result.success?
+
+          @config.report(result)
         end
       end
 
