@@ -38,8 +38,8 @@ module Haml
 
           private
 
-          define_method(:compile_plain) do
-            super()
+          define_method(:compile_plain) do |&block|
+            super(&block)
             result.matched_nodes << @node if config.match(@node.value[:text])
           end
 
@@ -70,8 +70,8 @@ module Haml
             end
           end
 
-          define_method(:compile_tag) do
-            super()
+          define_method(:compile_tag) do |&block|
+            super(&block)
             result.matched_nodes << @node if config.match(@node.value[:value])
             result.matched_nodes << @node if config.match(@node.value.dig(:attributes, 'placeholder') || "")
             result.matched_nodes << @node if config.match(@node.value.dig(:attributes, 'value') || "")

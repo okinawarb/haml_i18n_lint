@@ -22,6 +22,7 @@ class Haml::I18nLint::LinterTest < Haml::I18nLint::TestCase
     assert { !lint('%input(placeholder="hello")').success? }
     assert { !lint('%input{value: "hello"}').success? }
     assert { !lint('%input{placeholder: "hello"}').success? }
+    assert { !lint("%form\n  %input{placeholder: 'hello'}").success? }
   end
 
   private
