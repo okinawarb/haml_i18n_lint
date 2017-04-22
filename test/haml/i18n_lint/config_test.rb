@@ -20,7 +20,7 @@ class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
   end
 
   def test_files
-    assert { @config.files == %w(hi.html.haml) }
+    assert { @config.files == %w(test/fixtures/hi.html.haml) }
 
     @options.files = ''
     config = ::Haml::I18nLint::Config.new(@options)

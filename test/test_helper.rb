@@ -3,16 +3,19 @@ require "haml/i18n_lint"
 require "test/unit"
 
 class Haml::I18nLint::TestCase < Test::Unit::TestCase
-  class << self
-    def startup
-      @old_pwd = Dir.pwd
-      Dir.chdir(File.expand_path("fixtures", __dir__))
-      super
-    end
+  # When get assert {} error message, chdir cause problem if execute single test file like following
+  #     $ bundle exec ruby test/haml/runner_test.rb
+  #     => Error: test_foo(Haml::I18nLint::RunnerTest): Errno::ENOENT: No such file or directory @ rb_sysopen - test/haml/i18n_lint/runner_test.rb
+  # class << self
+  #   def startup
+  #     @old_pwd = Dir.pwd
+  #     Dir.chdir(File.expand_path("fixtures", __dir__))
+  #     super
+  #   end
 
-    def shutdown
-      Dir.chdir(@old_pwd)
-      @old_pwd = nil
-    end
-  end
+  #   def shutdown
+  #     Dir.chdir(@old_pwd)
+  #     @old_pwd = nil
+  #   end
+  # end
 end
