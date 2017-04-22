@@ -15,7 +15,7 @@ module Haml
       end
 
       def files
-        @files ||= '**/*.haml'
+        @files ||= ["**/*.haml"]
       end
     end
   end

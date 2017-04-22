@@ -16,7 +16,7 @@ class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
   end
 
   def test_default_files
-    assert { @options.files == '**/*.haml' }
+    assert { @options.files == ['**/*.haml'] }
   end
 
   def test_files=
