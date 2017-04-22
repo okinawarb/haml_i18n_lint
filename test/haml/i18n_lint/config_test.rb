@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'tempfile'
 
 class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
   def setup
@@ -28,14 +27,13 @@ class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
   end
 
   def test_load_config_from_options
-    options = ::Haml::I18nLint::Options.new
-    tempfile = Tempfile.open { |fp| fp.puts "def foo; true; end"; fp }
-    options.config_path = tempfile.path
-    config = ::Haml::I18nLint::Config.new(options)
+    with_config(config: "def foo; true; end") do |config_path|
+      options = ::Haml::I18nLint::Options.new
+      options.config_path = config_path
+      config = ::Haml::I18nLint::Config.new(options)
+      assert { config.foo }
+    end
 
-    assert { config.foo }
     assert_raise(NoMethodError) { @config.foo }
-  ensure
-    tempfile.close
   end
 end
