@@ -25,6 +25,15 @@ class Haml::I18nLint::LinterTest < Haml::I18nLint::TestCase
     assert { !lint("%form\n  %input{placeholder: 'hello'}").success? }
   end
 
+  def test_lint_result
+    assert { lint('123').matched_nodes.empty? }
+    assert { lint('123').filename == 'test.html.haml' }
+    assert { lint('123').success? }
+
+    assert { !lint('hi').matched_nodes.empty? }
+    assert { !lint('hi').success? }
+  end
+
   private
 
   def lint(template)

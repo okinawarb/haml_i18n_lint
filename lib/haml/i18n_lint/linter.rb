@@ -5,7 +5,7 @@ module Haml
     class Linter
       class AttributesParseError < StandardError; end
 
-      class Result < Struct.new(:matched_nodes)
+      class Result < Struct.new(:filename, :matched_nodes)
         def success?
           matched_nodes.empty?
         end
@@ -28,7 +28,7 @@ module Haml
 
       def compiler(haml_options)
         config = @config
-        result = Result.new([])
+        result = Result.new(haml_options[:filename], [])
 
         compiler_ext = Module.new do
           define_method(:compile) do |node|
