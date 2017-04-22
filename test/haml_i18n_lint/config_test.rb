@@ -6,16 +6,16 @@ class HamlI18nLint::ConfigTest < HamlI18nLint::TestCase
     @config = ::HamlI18nLint::Config.new(@options)
   end
 
-  def test_match_str
-    assert { @config.match('hi') }
+  def test_text_needs_i18n
+    assert { @config.need_i18n?('hi') }
   end
 
-  def test_not_match_number
-    assert { !@config.match('123') }
+  def test_digits_does_not_need_i18n
+    assert { !@config.need_i18n?('123') }
   end
 
-  def test_not_match_spaces
-    assert { !@config.match('    ') }
+  def test_spaces_does_not_need_i18n
+    assert { !@config.need_i18n?('    ') }
   end
 
   def test_files

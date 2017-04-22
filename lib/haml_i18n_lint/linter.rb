@@ -39,7 +39,7 @@ module HamlI18nLint
 
         define_method(:compile_plain) do |&block|
           super(&block)
-          result.matched_nodes << @node if config.match(@node.value[:text])
+          result.matched_nodes << @node if config.need_i18n?(@node.value[:text])
         end
 
         find_literal_exp = -> (config, attributes_hashes) do
@@ -63,7 +63,7 @@ module HamlI18nLint
               strings.any? do |(string_content, (tstring_content,val,pos))|
                 string_content == :string_content &&
                   tstring_content == :@tstring_content &&
-                  config.match(val)
+                  config.need_i18n?(val)
               end
             end
           end
@@ -71,9 +71,9 @@ module HamlI18nLint
 
         define_method(:compile_tag) do |&block|
           super(&block)
-          result.matched_nodes << @node if config.match(@node.value[:value])
-          result.matched_nodes << @node if config.match(@node.value.dig(:attributes, 'placeholder') || "")
-          result.matched_nodes << @node if config.match(@node.value.dig(:attributes, 'value') || "")
+          result.matched_nodes << @node if config.need_i18n?(@node.value[:value])
+          result.matched_nodes << @node if config.need_i18n?(@node.value.dig(:attributes, 'placeholder') || "")
+          result.matched_nodes << @node if config.need_i18n?(@node.value.dig(:attributes, 'value') || "")
           result.matched_nodes << @node if find_literal_exp.(config, @node.value[:attributes_hashes])
         end
       end

@@ -7,7 +7,7 @@ module HamlI18nLint
       end
     end
 
-    def match(content)
+    def need_i18n?(content)
       /^[\s]+$/ !~ content && /[A-Za-z]/ =~ content
     end
 
