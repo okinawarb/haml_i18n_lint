@@ -1,5 +1,9 @@
 module HamlI18nLint
+  # Configuration for the lint
   class Config
+    # Returns a new lint configuration by given options
+    #
+    # @param options [Options]
     def initialize(options)
       @options = options
       if (@options.config_path)
@@ -7,10 +11,15 @@ module HamlI18nLint
       end
     end
 
+    # @param content [String] the text content found in haml template
+    # @return [true, false] the content need i18n or not.
     def need_i18n?(content)
       /^[\s]+$/ !~ content && /[A-Za-z]/ =~ content
     end
 
+    # Output the formatted result
+    #
+    # @param result [Linter::Result] the lint result
     def report(result)
       print '.' and return if result.success?
 
@@ -26,6 +35,7 @@ module HamlI18nLint
       puts
     end
 
+    # @return [Array<String>] the list of files to be linted.
     def files
       Dir[*@options.files]
     end

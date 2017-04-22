@@ -20,7 +20,43 @@ Or install it yourself as:
 
 ## Usage
 
-    $ haml_i18n-lint
+    $ haml-i18n-lint --version
+    haml-i18n-lint 0.1.0
+    $ haml-i18n-lint --help
+    Usage: haml-i18n-lint [OPTION]... [FILE]...
+    -c, --config=FILE                configuration file
+    -f, --files=PATTERN              pattern to find Haml template files, default: -f '**/*.haml'
+
+The configuration file sample:
+
+    # You can override Config#need_i18n? that returns the content in Haml template need i18n or not.
+    def need_i18n?(content)
+      # the default behaviours is ignore white spaces and digits
+      /^[\s]+$/ !~ content && /[A-Za-z]/ =~ content
+    end
+
+    # You can override Config#report in configuration file
+    # to customize output format or send result to other location.
+    #
+    # The default output format is like following:
+    #
+    # $ haml-i18n-lint
+    # test/fixtures/hi.html.haml:4
+    # 3:    %head
+    # 4:      %title Hi
+    # 5:    %body
+    #
+    # For example, to use short format:
+    def report(result)
+      result.matched_nodes.each do |node|
+        puts "#{result.filename}:#{node.line}"
+      end
+    end
+
+    # You can override Config#files for complex file pattern.
+    def files
+      Dir['**/*.haml'].reject { |path| path.start_with?('app/assets/') || path.start_with?('node_modules') }
+    end
 
 ## Development
 
