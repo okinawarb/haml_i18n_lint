@@ -1,4 +1,27 @@
 #!/usr/bin/env ruby
 require 'haml/i18n_lint'
+require 'optparse'
 
-puts Haml::I18nLint::VERSION
+options = Haml::I18nLint::Options.new
+
+opt = OptionParser.new
+opt.banner = 'Usage: haml-i18n-lint [OPTION]... [FILE]...'
+opt.on('-c FILE', '--config=FILE', 'configuration file') do |config_path|
+  options.config_path = config_path
+end
+opt.on('-f PATTERN', '--files=PATTERN', "pattern to find Haml template files, default: -f '**/*.haml'") do |pattern|
+  @pattern = pattern
+  options.files = [@pattern]
+end
+
+opt.parse!(ARGV)
+
+if @pattern
+  options.files.concat(ARGV)
+elsif !ARGV.empty?
+  options.files = ARGV
+end
+
+runner = Haml::I18nLint::Runner.new(options)
+ret = runner.run
+exit(ret)

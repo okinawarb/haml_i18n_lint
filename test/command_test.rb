@@ -2,6 +2,7 @@ require 'test_helper'
 
 class CommandTest < Test::Unit::TestCase
   def test_command_exists
-    assert { system('bundle exec haml-i18n-lint') }
+    assert { system('bundle exec haml-i18n-lint foo.html.haml') }
+    assert { !system('bundle exec haml-i18n-lint') }
   end
 end
