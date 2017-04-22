@@ -14,9 +14,12 @@ module HamlI18nLint
       @config.files.all? do |file|
         result = lint(file)
 
-        next true if result.success?
-
-        @config.report(result)
+        if result.success?
+          true
+        else
+          @config.report(result)
+          false
+        end
       end
     end
 
