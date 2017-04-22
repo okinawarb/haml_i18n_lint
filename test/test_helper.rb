@@ -1,13 +1,13 @@
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
-require "haml/i18n_lint"
+require "haml_i18n_lint"
 require "test/unit"
 require "tempfile"
 require "tmpdir"
 
-class Haml::I18nLint::TestCase < Test::Unit::TestCase
+class HamlI18nLint::TestCase < Test::Unit::TestCase
   # When get assert {} error message, chdir cause problem if execute single test file like following
-  #     $ bundle exec ruby test/haml/runner_test.rb
-  #     => Error: test_foo(Haml::I18nLint::RunnerTest): Errno::ENOENT: No such file or directory @ rb_sysopen - test/haml/i18n_lint/runner_test.rb
+  #     $ bundle exec ruby test/haml_i18n_lint/runner_test.rb
+  #     => Error: test_foo(HamlI18nLint::RunnerTest): Errno::ENOENT: No such file or directory @ rb_sysopen - test/haml_i18n_lint/runner_test.rb
   # class << self
   #   def startup
   #     @old_pwd = Dir.pwd
@@ -22,7 +22,7 @@ class Haml::I18nLint::TestCase < Test::Unit::TestCase
   # end
 
   def with_config(config:)
-    options = ::Haml::I18nLint::Options.new
+    options = ::HamlI18nLint::Options.new
     tempfile = Tempfile.open { |fp| fp.puts(config); fp }
     yield tempfile.path
   ensure

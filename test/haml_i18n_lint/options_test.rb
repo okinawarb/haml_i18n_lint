@@ -1,9 +1,9 @@
 require 'test_helper'
 require 'tempfile'
 
-class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
+class HamlI18nLint::OptionsTest < HamlI18nLint::TestCase
   def setup
-    @options = Haml::I18nLint::Options.new
+    @options = HamlI18nLint::Options.new
   end
 
   def test_config_path
@@ -33,11 +33,11 @@ class Haml::I18nLint::OptionsTest < Haml::I18nLint::TestCase
   end
 
   def test_config_content_without_set_config
-    assert_raise(Haml::I18nLint::LoadConfigError.new("Config not exist: nil")) { @options.config_content }
+    assert_raise(HamlI18nLint::LoadConfigError.new("Config not exist: nil")) { @options.config_content }
   end
 
   def test_config_content_with_not_exist_path
     @options.config_path = 'foo'
-    assert_raise(Haml::I18nLint::LoadConfigError.new('Config not exist: "foo"')) { @options.config_content }
+    assert_raise(HamlI18nLint::LoadConfigError.new('Config not exist: "foo"')) { @options.config_content }
   end
 end

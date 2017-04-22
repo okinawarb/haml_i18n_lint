@@ -1,4 +1,4 @@
-# Haml::I18nLint
+# HamlI18nLint
 
 find out not translated yet plain text from your Haml template.
 
@@ -7,7 +7,7 @@ find out not translated yet plain text from your Haml template.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'haml-i18n_lint'
+gem 'haml_i18n_lint'
 ```
 
 And then execute:
@@ -16,11 +16,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install haml-i18n_lint
+    $ gem install haml_i18n_lint
 
 ## Usage
 
-    $ haml-i18n-lint
+    $ haml_i18n-lint
 
 ## Development
 
@@ -30,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/hanachin/haml-i18n_lint. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/hanachin/haml_i18n_lint. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class Haml::I18nLint::LinterTest < Haml::I18nLint::TestCase
+class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
   def setup
-    options = Haml::I18nLint::Options.new
-    config = Haml::I18nLint::Config.new(options)
-    @linter = Haml::I18nLint::Linter.new(config)
+    options = HamlI18nLint::Options.new
+    config = HamlI18nLint::Config.new(options)
+    @linter = HamlI18nLint::Linter.new(config)
   end
 
   def test_lint

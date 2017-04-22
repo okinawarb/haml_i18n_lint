@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
-require 'haml/i18n_lint'
+require 'haml_i18n_lint'
 require 'optparse'
 
-options = Haml::I18nLint::Options.new
+options = HamlI18nLint::Options.new
 
 opt = OptionParser.new
 opt.banner = 'Usage: haml-i18n-lint [OPTION]... [FILE]...'
@@ -22,6 +22,6 @@ elsif !ARGV.empty?
   options.files = ARGV
 end
 
-runner = Haml::I18nLint::Runner.new(options)
+runner = HamlI18nLint::Runner.new(options)
 ret = runner.run
 exit(ret)

@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'haml/i18n_lint/version'
+require 'haml_i18n_lint/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "haml-i18n_lint"
-  spec.version       = Haml::I18nLint::VERSION
+  spec.name          = "haml_i18n_lint"
+  spec.version       = HamlI18nLint::VERSION
   spec.authors       = ["Seiei Miyagi"]
   spec.email         = ["hanachin@gmail.com"]
 
   spec.summary       = "find out not translated yet plain text from your Haml template"
-  spec.homepage      = "https://github.com/hanachin/haml-i18n_lint"
+  spec.homepage      = "https://github.com/hanachin/haml_i18n_lint"
   spec.license       = "MIT"
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})

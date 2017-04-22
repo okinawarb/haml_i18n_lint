@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
+class HamlI18nLint::ConfigTest < HamlI18nLint::TestCase
   def setup
-    @options = ::Haml::I18nLint::Options.new
-    @config = ::Haml::I18nLint::Config.new(@options)
+    @options = ::HamlI18nLint::Options.new
+    @config = ::HamlI18nLint::Config.new(@options)
   end
 
   def test_match_str
@@ -22,15 +22,15 @@ class Haml::I18nLint::ConfigTest < Haml::I18nLint::TestCase
     assert { @config.files == %w(test/fixtures/hi.html.haml) }
 
     @options.files = ''
-    config = ::Haml::I18nLint::Config.new(@options)
+    config = ::HamlI18nLint::Config.new(@options)
     assert { config.files == [] }
   end
 
   def test_load_config_from_options
     with_config(config: "def foo; true; end") do |config_path|
-      options = ::Haml::I18nLint::Options.new
+      options = ::HamlI18nLint::Options.new
       options.config_path = config_path
-      config = ::Haml::I18nLint::Config.new(options)
+      config = ::HamlI18nLint::Config.new(options)
       assert { config.foo }
     end
 
