@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["hanachin@gmail.com"]
 
   spec.summary       = "find out not translated yet plain text from your Haml template"
-  spec.homepage      = "https://github.com/hanachin/haml_i18n_lint"
+  spec.homepage      = "https://github.com/okinawarb/haml_i18n_lint"
   spec.license       = "MIT"
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
