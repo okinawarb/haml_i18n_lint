@@ -2,6 +2,7 @@ $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 require "haml/i18n_lint"
 require "test/unit"
 require "tempfile"
+require "tmpdir"
 
 class Haml::I18nLint::TestCase < Test::Unit::TestCase
   # When get assert {} error message, chdir cause problem if execute single test file like following
@@ -26,5 +27,12 @@ class Haml::I18nLint::TestCase < Test::Unit::TestCase
     yield tempfile.path
   ensure
     tempfile.close
+  end
+
+  def with_template(filename: 'temp.html.haml', template:)
+    Dir.mktmpdir do |dir|
+      File.open(File.join(dir, filename), 'w') { |fp| fp.puts(template); fp }
+      Dir.chdir(dir) { yield }
+    end
   end
 end
