@@ -2,6 +2,8 @@
 require 'haml_i18n_lint'
 require 'optparse'
 
+Version = HamlI18nLint::VERSION
+
 options = HamlI18nLint::Options.new
 
 opt = OptionParser.new
