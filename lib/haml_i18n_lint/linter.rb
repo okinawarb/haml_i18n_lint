@@ -55,6 +55,15 @@ module HamlI18nLint
 
         private
 
+        define_method(:compile_script) do |&block|
+          super(&block)
+          program = Ripper.sexp(@node.value[:text]).flatten
+          str_num = program.flatten.count { |t| t == :string_literal }
+          tstr_num = program.each_with_index.count { |t, i| [t, program[i + 1], program[i + 2]] == [:fcall, :@ident, config.i18n_method.to_s] }
+
+          result.matched_nodes << @node unless str_num == tstr_num
+        end
+
         define_method(:compile_plain) do |&block|
           super(&block)
           result.matched_nodes << @node if config.need_i18n?(@node.value[:text])

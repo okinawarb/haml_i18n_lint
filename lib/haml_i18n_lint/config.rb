@@ -11,6 +11,11 @@ module HamlI18nLint
       end
     end
 
+    # @return [String] the translate method name
+    def i18n_method
+      't'
+    end
+
     # @param content [String] the text content found in haml template
     # @return [true, false] the content need i18n or not.
     def need_i18n?(content)

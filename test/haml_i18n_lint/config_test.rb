@@ -18,6 +18,10 @@ class HamlI18nLint::ConfigTest < HamlI18nLint::TestCase
     assert { !@config.need_i18n?('    ') }
   end
 
+  def test_i18n_method
+    assert { @config.i18n_method == 't' }
+  end
+
   def test_files
     assert { @config.files == %w(test/fixtures/hi.html.haml) }
 
