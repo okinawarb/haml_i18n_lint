@@ -1,5 +1,6 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
+require "appraisal"
 require "yard"
 
 Rake::TestTask.new(:test) do |t|
@@ -10,4 +11,8 @@ end
 
 YARD::Rake::YardocTask.new
 
-task default: :test
+if ENV["APPRAISAL_INITIALIZED"] || ENV["TRAVIS"]
+  task default: :test
+else
+  task default: :appraisal
+end
