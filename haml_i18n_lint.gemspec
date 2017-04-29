@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "haml"
+  spec.add_development_dependency "appraisal"
   spec.add_development_dependency "yard"
   spec.add_development_dependency "test-unit"
   spec.add_development_dependency "bundler", "~> 1.14"
