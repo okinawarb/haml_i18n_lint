@@ -1,5 +1,7 @@
 # HamlI18nLint
 
+[![Build Status](https://travis-ci.org/okinawarb/haml_i18n_lint.svg?branch=master)](https://travis-ci.org/okinawarb/haml_i18n_lint)
+
 find out not translated yet plain text from your Haml template.
 
 ## Installation
