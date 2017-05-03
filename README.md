@@ -1,5 +1,6 @@
 # HamlI18nLint
 
+[![Gem Version](https://badge.fury.io/rb/haml_i18n_lint.svg)](http://rubygems.org/gems/haml_i18n_lint)
 [![Build Status](https://travis-ci.org/okinawarb/haml_i18n_lint.svg?branch=master)](https://travis-ci.org/okinawarb/haml_i18n_lint)
 [![Code Climate](http://img.shields.io/codeclimate/github/okinawarb/haml_i18n_lint.svg)](https://codeclimate.com/github/okinawarb/haml_i18n_lint)
 [![Coverage Status](https://coveralls.io/repos/github/okinawarb/haml_i18n_lint/badge.svg?branch=master)](https://coveralls.io/github/okinawarb/haml_i18n_lint?branch=master)
