@@ -1,6 +1,7 @@
 # HamlI18nLint
 
 [![Build Status](https://travis-ci.org/okinawarb/haml_i18n_lint.svg?branch=master)](https://travis-ci.org/okinawarb/haml_i18n_lint)
+[![Code Climate](http://img.shields.io/codeclimate/github/okinawarb/haml_i18n_lint.svg)](https://codeclimate.com/github/okinawarb/haml_i18n_lint)
 
 find out not translated yet plain text from your Haml template.
 
