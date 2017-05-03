@@ -2,8 +2,7 @@ require 'yaml'
 travis_yml_path = File.expand_path('../.travis.yml', __dir__)
 travis_yml = YAML.load_file(travis_yml_path)
 ruby_version = travis_yml.fetch('rvm').first
-gemfile = travis_yml.fetch('gemfile').first
-if ENV['TRAVIS'] && RUBY_VERSION == ruby_version && ENV['BUNDLE_GEMFILE']&.include?(gemfile)
+if ENV['TRAVIS'] && RUBY_VERSION == ruby_version
   require 'coveralls'
   Coveralls.wear!
 end
