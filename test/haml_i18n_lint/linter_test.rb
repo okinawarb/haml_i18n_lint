@@ -4,7 +4,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
   def setup
     options = HamlI18nLint::Options.new
     config = HamlI18nLint::Config.new(options)
-    @linter = HamlI18nLint::Linter.new(config)
+    @linter = HamlI18nLint.linter.new(config)
   end
 
   def test_lint

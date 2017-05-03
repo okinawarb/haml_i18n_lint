@@ -8,7 +8,7 @@ module HamlI18nLint
     def initialize(options)
       @options = options
       @config = ::HamlI18nLint::Config.new(@options)
-      @linter = ::HamlI18nLint::Linter.new(@config)
+      @linter = HamlI18nLint.linter.new(@config)
     end
 
     # Run lint and report the result
