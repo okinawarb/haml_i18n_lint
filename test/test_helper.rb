@@ -3,8 +3,11 @@ travis_yml_path = File.expand_path('../.travis.yml', __dir__)
 travis_yml = YAML.load_file(travis_yml_path)
 ruby_version = travis_yml.fetch('rvm').first
 if ENV['TRAVIS'] && RUBY_VERSION == ruby_version
-  require 'coveralls'
-  Coveralls.wear!
+  begin
+    require 'coveralls'
+    Coveralls.wear!
+  rescue LoadError
+  end
 end
 
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
