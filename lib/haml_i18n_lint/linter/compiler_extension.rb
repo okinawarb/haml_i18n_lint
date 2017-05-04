@@ -4,7 +4,12 @@ module HamlI18nLint
 
       def compile_script
         super
-        program = Ripper.sexp(@node.value[:text]).flatten
+        _, on_kw, kw_do = Ripper.lex(@node.value[:text].rstrip).last
+        if on_kw == :on_kw && kw_do == "do"
+          program = Ripper.sexp(@node.value[:text] + "\nend").flatten
+        else
+          program = Ripper.sexp(@node.value[:text]).flatten
+        end
         str_num = program.flatten.count { |t| t == :string_literal }
         tstr_num = program.each_with_index.count do |t, i|
           lint_config.ignore_methods.any? do |m|
