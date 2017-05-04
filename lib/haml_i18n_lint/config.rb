@@ -27,7 +27,7 @@ module HamlI18nLint
       file = File.readlines(result.filename)
       result.matched_nodes.each do |node|
         puts "#{result.filename}:#{node.line}"
-        puts "#{node.line-1}:  #{file[node.line - 2]}" if file[node.line - 2]
+        puts "#{node.line-1}:  #{file[node.line - 2]}" if file[node.line - 2] && !(node.line - 2).negative?
         puts "#{node.line}:  #{file[node.line - 1]}"
         puts "#{node.line+1}:  #{file[node.line]}" if file[node.line]
         puts '-' * 16
