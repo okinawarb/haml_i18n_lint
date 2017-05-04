@@ -14,7 +14,7 @@ module HamlI18nLint
     # @param content [String] the text content found in haml template
     # @return [true, false] the content need i18n or not.
     def need_i18n?(content)
-      /^[\s]+$/ !~ content && /[A-Za-z]/ =~ content
+      /^[\s]+$/ !~ content && /\p{Alpha}/ =~ content
     end
 
     # Output the formatted result

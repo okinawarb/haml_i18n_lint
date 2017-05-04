@@ -38,7 +38,7 @@ The configuration file sample:
     # You can override Config#need_i18n? that returns the content in Haml template need i18n or not.
     def need_i18n?(content)
       # the default behaviours is ignore white spaces and digits
-      /^[\s]+$/ !~ content && /[A-Za-z]/ =~ content
+      /^[\s]+$/ !~ content && /\p{Alpha}/ =~ content
     end
 
     # You can override Config#report in configuration file
