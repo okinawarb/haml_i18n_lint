@@ -17,6 +17,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { lint('%input{placeholder: "123"}').success? }
     assert { lint('%input{placeholder: var}').success? }
     assert { lint("= t('hello')").success? }
+    assert { lint("= render 'hello'").success? }
     assert { !lint('hello').success? }
     assert { !lint('%h1 hello').success? }
     assert { !lint('%input(value="hello")').success? }

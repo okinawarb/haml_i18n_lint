@@ -6,7 +6,12 @@ module HamlI18nLint
         super
         program = Ripper.sexp(@node.value[:text]).flatten
         str_num = program.flatten.count { |t| t == :string_literal }
-        tstr_num = program.each_with_index.count { |t, i| [t, program[i + 1], program[i + 2]] == [:fcall, :@ident, lint_config.i18n_method.to_s] }
+        tstr_num = program.each_with_index.count do |t, i|
+          lint_config.ignore_methods.any? do |m|
+            [t, program[i + 1], program[i + 2]] == [:fcall, :@ident, m.to_s] ||
+              [t, program[i + 1], program[i + 2]] == [:command, :@ident, m.to_s]
+          end
+        end
 
         lint_add_matched_node(@node) unless str_num == tstr_num
       end

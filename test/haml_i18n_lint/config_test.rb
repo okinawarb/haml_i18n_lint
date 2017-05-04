@@ -18,8 +18,8 @@ class HamlI18nLint::ConfigTest < HamlI18nLint::TestCase
     assert { !@config.need_i18n?('    ') }
   end
 
-  def test_i18n_method
-    assert { @config.i18n_method == 't' }
+  def test_ignore_methods
+    assert { @config.ignore_methods == ['t', 'render'] }
   end
 
   def test_files

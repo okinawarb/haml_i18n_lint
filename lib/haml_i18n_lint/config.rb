@@ -11,11 +11,6 @@ module HamlI18nLint
       end
     end
 
-    # @return [String] the translate method name
-    def i18n_method
-      't'
-    end
-
     # @param content [String] the text content found in haml template
     # @return [true, false] the content need i18n or not.
     def need_i18n?(content)
@@ -43,6 +38,11 @@ module HamlI18nLint
     # @return [Array<String>] the list of files to be linted.
     def files
       Dir[*@options.files]
+    end
+
+    # @return [String] the list of methods, which takes string. The string is no translation required.
+    def ignore_methods
+      %w(t render)
     end
 
     private
