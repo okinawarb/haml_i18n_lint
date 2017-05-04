@@ -14,7 +14,7 @@ module HamlI18nLint
     # Run lint and report the result
     # @return [true, false] all of the files passed lint or not.
     def run
-      @config.files.all? do |file|
+      @config.files.map do |file|
         result = lint(file)
 
         if result.success?
@@ -23,7 +23,7 @@ module HamlI18nLint
           @config.report(result)
           false
         end
-      end
+      end.all?
     end
 
     private
