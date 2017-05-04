@@ -21,6 +21,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { lint("= render 'hello'").success? }
     assert { lint("- if 'test'\n  123").success? }
     assert { lint("= foo do  \n  123").success? }
+    assert { lint("= foo do |f|  \n  123").success? }
     assert { !lint('hello').success? }
     assert { !lint('はいさい').success? }
     assert { !lint('%h1 hello').success? }
@@ -32,6 +33,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { !lint("= 'hello'").success? }
     assert { !lint("- if 'test'\n  hello").success? }
     assert { !lint("= foo do  \n  hello").success? }
+    assert { !lint("= foo do |f|  \n  hello").success? }
   end
 
   def test_lint_result

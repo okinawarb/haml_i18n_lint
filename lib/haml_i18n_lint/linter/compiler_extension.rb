@@ -4,8 +4,7 @@ module HamlI18nLint
 
       def compile_script
         super
-        _, on_kw, kw_do = Ripper.lex(@node.value[:text].rstrip).last
-        if on_kw == :on_kw && kw_do == "do"
+        if Ripper.lex(@node.value[:text].rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
           program = Ripper.sexp(@node.value[:text] + "\nend").flatten
         else
           program = Ripper.sexp(@node.value[:text]).flatten
