@@ -37,7 +37,7 @@ module HamlI18nLint
 
     # @return [Array<String>] the list of files to be linted.
     def files
-      Dir[*@options.files]
+      Dir[*@options.files].uniq
     end
 
     # @return [String] the list of methods, which takes string. The string is no translation required.
