@@ -10,6 +10,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
   def test_lint
     assert { lint('123  456').success? }
     assert { lint('   ').success? }
+    assert { lint('.empty').success? }
     assert { lint('%h1 123').success? }
     assert { lint('%input(value="123")').success? }
     assert { lint('%input(placeholder="123")').success? }
@@ -18,6 +19,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { lint('%input{placeholder: var}').success? }
     assert { lint("= t('hello')").success? }
     assert { lint("= render 'hello'").success? }
+    assert { lint("- if 'test'\n  123").success? }
     assert { !lint('hello').success? }
     assert { !lint('はいさい').success? }
     assert { !lint('%h1 hello').success? }
@@ -27,6 +29,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { !lint('%input{placeholder: "hello"}').success? }
     assert { !lint("%form\n  %input{placeholder: 'hello'}").success? }
     assert { !lint("= 'hello'").success? }
+    assert { !lint("- if 'test'\n  hello").success? }
   end
 
   def test_lint_result
