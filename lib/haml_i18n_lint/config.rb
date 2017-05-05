@@ -57,7 +57,7 @@ module HamlI18nLint
 
     # @return [String] the list of key of attributes hash. The key is no translation required.
     def ignore_keys
-      %w(id class method controller action type lang selected checked src href rel language media)
+      %w(id class style type lang selected checked href src language rel media method controller action)
     end
 
     private

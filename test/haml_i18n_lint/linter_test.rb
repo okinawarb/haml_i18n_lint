@@ -32,8 +32,8 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
       %input{id: "btn2", class: "button", type: "button", value: "2"}
     HAML
     assert { lint(<<~HAML).success? }
-      %p(lang="en") $1
-      %p{lang: "ja"} ¥1
+      %p(lang="en" style="color: red") $1
+      %p{lang: "ja", style: "color: red"} ¥1
     HAML
     assert { lint(<<~HAML).success? }
       %input(selected="selected")
