@@ -27,6 +27,9 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
       = form_for(@foo, method: 'GET', action: '/foo', html: { id: 'form', class: 'form' })
     HAML
     assert { lint(<<~HAML).success? }
+      = link_to 42, controller: 'answer', action: 'show'
+    HAML
+    assert { lint(<<~HAML).success? }
       %input(id="btn1" class="button" type="button" value="1")
       %input{id: "btn2", class: "button", type: "button", value: "2"}
     HAML
