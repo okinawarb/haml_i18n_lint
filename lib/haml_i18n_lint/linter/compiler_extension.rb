@@ -4,11 +4,11 @@ module HamlI18nLint
 
       def compile_script
         super
-        if Ripper.lex(@node.value[:text].rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
-          program = Ripper.sexp(@node.value[:text] + "\nend").flatten
-        else
-          program = Ripper.sexp(@node.value[:text]).flatten
+        text = @node.value[:text].dup
+        if Ripper.lex(text.rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
+          text << "\nend\n"
         end
+        program = Ripper.sexp(text).flatten
         str_num = program.flatten.count { |t| t == :string_literal }
         tstr_num = program.each_with_index.count do |t, i|
           lint_config.ignore_methods.any? do |m|
