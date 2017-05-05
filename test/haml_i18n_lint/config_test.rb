@@ -22,6 +22,10 @@ class HamlI18nLint::ConfigTest < HamlI18nLint::TestCase
     assert { @config.ignore_methods == ['t', 'render'] }
   end
 
+  def test_ignore_keys
+    assert { !@config.ignore_keys.empty? }
+  end
+
   def test_files
     assert { @config.files == %w(test/fixtures/hi.html.haml) }
 

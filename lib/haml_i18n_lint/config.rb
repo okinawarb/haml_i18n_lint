@@ -45,6 +45,11 @@ module HamlI18nLint
       %w(t render)
     end
 
+    # @return [String] the list of key of attributes hash. The key is no translation required.
+    def ignore_keys
+      %w(id class method action type lang selected checked src href rel language)
+    end
+
     private
 
     def load_config(config_content)

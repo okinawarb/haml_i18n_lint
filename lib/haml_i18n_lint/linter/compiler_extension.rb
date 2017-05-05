@@ -17,7 +17,13 @@ module HamlI18nLint
           end
         end
 
-        lint_add_matched_node(@node) unless str_num == tstr_num
+        ignore_key_num = program.count.times.count do |i|
+          lint_config.ignore_keys.any? do |k|
+            program[i, 3] == [:assoc_new, :@label, "#{k}:"] && program[i + 5] == :string_literal
+          end
+        end
+
+        lint_add_matched_node(@node) unless str_num == tstr_num + ignore_key_num
       end
 
       def compile_plain
@@ -44,8 +50,12 @@ module HamlI18nLint
           end
 
           assocs.any? do |assoc|
-            assoc_new, key, value = assoc
+            assoc_new, (_label, key, _pos), value = assoc
+
+            next if lint_config.ignore_keys.any? { |k| "#{k}:" == key }
+
             raise AttributesParseError unless assoc_new == :assoc_new
+
             string_literal, *strings = value
             next unless string_literal == :string_literal
             strings.any? do |(string_content, (tstring_content,val,pos))|
