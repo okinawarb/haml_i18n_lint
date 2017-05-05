@@ -45,8 +45,8 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
       %script{src: "foo.js", language: "javascript"}
     HAML
     assert { lint(<<~HAML).success? }
-      %link(href="http://example.com" rel="stylesheet") 1
-      %link{href: "http://example.com", rel: "stylesheet"} 2
+      %link(href="http://example.com" rel="stylesheet" media="all") 1
+      %link{href: "http://example.com", rel: "stylesheet", media: "all"} 2
     HAML
     assert { lint(<<~'HAML').success? }
       %span= @foo.bars.count
