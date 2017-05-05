@@ -17,8 +17,6 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { lint('%input{value: "123"}').success? }
     assert { lint('%input{placeholder: "123"}').success? }
     assert { lint('%input{placeholder: var}').success? }
-    assert { lint("= t('hello')").success? }
-    assert { lint("= render 'hello'").success? }
     assert { lint("- if 'test'\n  123").success? }
     assert { lint("= foo do  \n  123").success? }
     assert { lint("= foo do |f|  \n  123").success? }
@@ -53,6 +51,17 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     HAML
     assert { lint(<<~'HAML').success? }
       %span= @foo.bars.count
+    HAML
+    assert { lint(<<~'HAML').success? }
+      = asset_path('foo.png')
+      = image_path('foo.png')
+      = image_tag('foo.png')
+      = javascript_include_tag('application')
+      = pluralize(1, 'person')
+      = render 'hello'
+      = singularize('posts')
+      = stylesheet_link_tag('application')
+      = t('hello')
     HAML
     assert { !lint('hello').success? }
     assert { !lint('はいさい').success? }

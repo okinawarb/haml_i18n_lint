@@ -19,7 +19,7 @@ class HamlI18nLint::ConfigTest < HamlI18nLint::TestCase
   end
 
   def test_ignore_methods
-    assert { @config.ignore_methods == ['t', 'render'] }
+    assert { @config.ignore_methods.include?('t') && @config.ignore_methods.include?('render') }
   end
 
   def test_ignore_keys

@@ -42,7 +42,17 @@ module HamlI18nLint
 
     # @return [String] the list of methods, which takes string. The string is no translation required.
     def ignore_methods
-      %w(t render)
+      %w(
+        asset_path
+        image_path
+        image_tag
+        javascript_include_tag
+        pluralize
+        render
+        singularize
+        stylesheet_link_tag
+        t
+      )
     end
 
     # @return [String] the list of key of attributes hash. The key is no translation required.
