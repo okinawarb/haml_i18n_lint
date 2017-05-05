@@ -4,26 +4,7 @@ module HamlI18nLint
 
       def compile_script
         super
-        text = @node.value[:text].dup
-        if Ripper.lex(text.rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
-          text << "\nend\n"
-        end
-        program = Ripper.sexp(text).flatten
-        str_num = program.flatten.count { |t| t == :string_literal }
-        tstr_num = program.each_with_index.count do |t, i|
-          lint_config.ignore_methods.any? do |m|
-            [t, program[i + 1], program[i + 2]] == [:fcall, :@ident, m.to_s] ||
-              [t, program[i + 1], program[i + 2]] == [:command, :@ident, m.to_s]
-          end
-        end
-
-        ignore_key_num = program.count.times.count do |i|
-          lint_config.ignore_keys.any? do |k|
-            program[i, 3] == [:assoc_new, :@label, "#{k}:"] && program[i + 5] == :string_literal
-          end
-        end
-
-        lint_add_matched_node(@node) unless str_num == tstr_num + ignore_key_num
+        lint_add_matched_node(@node) if script_need_i18n?(@node.value[:text])
       end
 
       def compile_plain
@@ -73,6 +54,31 @@ module HamlI18nLint
         lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value.dig(:attributes, 'placeholder') || "")
         lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value.dig(:attributes, 'value') || "")
         lint_add_matched_node(@node) if lint_attribute_need_i18n?
+      end
+
+      private
+
+      def script_need_i18n?(script)
+        script = script.dup
+        if Ripper.lex(script.rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
+          script << "\nend\n"
+        end
+        program = Ripper.sexp(script).flatten
+        str_num = program.flatten.count { |t| t == :string_literal }
+        tstr_num = program.each_with_index.count do |t, i|
+          lint_config.ignore_methods.any? do |m|
+            [t, program[i + 1], program[i + 2]] == [:fcall, :@ident, m.to_s] ||
+              [t, program[i + 1], program[i + 2]] == [:command, :@ident, m.to_s]
+          end
+        end
+
+        ignore_key_num = program.count.times.count do |i|
+          lint_config.ignore_keys.any? do |k|
+            program[i, 3] == [:assoc_new, :@label, "#{k}:"] && program[i + 5] == :string_literal
+          end
+        end
+
+        str_num != tstr_num + ignore_key_num
       end
 
     end
