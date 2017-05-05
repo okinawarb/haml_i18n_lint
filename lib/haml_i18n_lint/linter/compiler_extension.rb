@@ -82,7 +82,11 @@ module HamlI18nLint
           end
         end
 
-        str_num != tstr_num + ignore_key_num
+        ignore_aref_key_num = program.count.times.count do |i|
+          program[i, 2] == [:aref, :vcall] && program[i+6, 2] == [:args_add_block, :string_literal]
+        end
+
+        str_num != tstr_num + ignore_key_num + ignore_aref_key_num
       end
 
     end

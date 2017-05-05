@@ -53,6 +53,9 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
       %span= @foo.bars.count
     HAML
     assert { lint(<<~'HAML').success? }
+      = params['foo']
+    HAML
+    assert { lint(<<~'HAML').success? }
       = asset_path('foo.png')
       = image_path('foo.png')
       = image_tag('foo.png')
