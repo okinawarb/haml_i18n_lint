@@ -50,7 +50,11 @@ module HamlI18nLint
 
       def compile_tag
         super
-        lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value[:value])
+        if @node.value[:parse]
+          lint_add_matched_node(@node) if script_need_i18n?(@node.value[:value])
+        else
+          lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value[:value])
+        end
         lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value.dig(:attributes, 'placeholder') || "")
         lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value.dig(:attributes, 'value') || "")
         lint_add_matched_node(@node) if lint_attribute_need_i18n?

@@ -48,6 +48,9 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
       %link(href="http://example.com" rel="stylesheet") 1
       %link{href: "http://example.com", rel: "stylesheet"} 2
     HAML
+    assert { lint(<<~'HAML').success? }
+      %span= @foo.bars.count
+    HAML
     assert { !lint('hello').success? }
     assert { !lint('はいさい').success? }
     assert { !lint('%h1 hello').success? }
@@ -60,6 +63,9 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { !lint("- if 'test'\n  hello").success? }
     assert { !lint("= foo do  \n  hello").success? }
     assert { !lint("= foo do |f|  \n  hello").success? }
+    assert { !lint(<<~'HAML').success? }
+      %span= "#" + @foo.bars.count.to_s
+    HAML
   end
 
   def test_lint_result
