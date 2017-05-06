@@ -78,6 +78,14 @@ module HamlI18nLint
         fcall == :fcall && ident == :@ident && m == method_name
       end
 
+      def lint_call?(sexp, method_name)
+        return unless sexp.first == :method_add_arg
+
+        _method_add_arg, (call, _receiver, _dot, (ident, m, _lineno)), * = sexp
+
+        call == :call && ident == :@ident && m == method_name
+      end
+
       def lint_string_literal?(sexp)
         sexp.first == :string_literal
       end
@@ -87,6 +95,10 @@ module HamlI18nLint
         exps.each_with_index.any? do |exp, i|
           exp == :@tstring_content && exps[i + 1].is_a?(String) && lint_config.need_i18n?(exps[i + 1])
         end
+      end
+
+      def lint_ignore_method?(sexp, m)
+        lint_command?(sexp, m) || lint_fcall?(sexp, m) || lint_call?(sexp, m)
       end
 
       def script_need_i18n?(script)
@@ -100,7 +112,7 @@ module HamlI18nLint
         walk = -> (sexp) do
           return if !sexp.is_a?(Array)
           return if lint_aref?(sexp)
-          return if lint_config.ignore_methods.any? { |m| lint_command?(sexp, m) || lint_fcall?(sexp, m) }
+          return if lint_config.ignore_methods.any? { |m| lint_ignore_method?(sexp, m) }
           return if lint_config.ignore_keys.any? { |k| lint_assoc_new?(sexp, k) }
 
           if lint_string_literal?(sexp) && lint_string_literal_need_i18n?(sexp)

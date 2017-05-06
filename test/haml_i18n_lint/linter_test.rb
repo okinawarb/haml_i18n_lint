@@ -65,6 +65,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
       = singularize('posts')
       = stylesheet_link_tag('application')
       = t('hello')
+      = I18n.t('hello')
     HAML
     assert { !lint('hello').success? }
     assert { !lint('はいさい').success? }
