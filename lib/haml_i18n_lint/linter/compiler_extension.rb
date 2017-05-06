@@ -52,6 +52,7 @@ module HamlI18nLint
         super
         if @node.value[:parse]
           lint_add_matched_node(@node) if script_need_i18n?(@node.value[:value])
+
         else
           lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value[:value])
         end
@@ -62,31 +63,77 @@ module HamlI18nLint
 
       private
 
+      def lint_aref?(sexp)
+        sexp.first == :aref
+      end
+
+      def lint_assoc_new?(sexp, key)
+        return false unless sexp.first == :assoc_new
+
+        _assoc_new, assoc_key, _value = sexp
+
+        type, k, _lineno = assoc_key
+
+        case type
+        when :@label
+          return k == "#{key}:"
+        when :dyna_symbol
+          return k.size == 2 &&
+                 k.first == :string_content &&
+                 k.last[0] == :@tstring_content &&
+                 k.last[1] == key
+        end
+
+        false
+      end
+
+      def lint_command?(sexp, method_name)
+        return unless sexp.first == :command
+
+        _command, (ident, m, _lineno), * = sexp
+
+        ident == :@ident && m == method_name
+      end
+
+      def lint_method_call?(sexp, method_name)
+        return unless sexp.first == :method_add_arg
+
+        _method_add_arg, (fcall, (ident, m, _lineno)), * = sexp
+
+        fcall == :fcall && ident == :@ident && m == method_name
+      end
+
+      def lint_string_literal?(sexp)
+        sexp.first == :string_literal
+      end
+
       def script_need_i18n?(script)
         script = script.dup
         if Ripper.lex(script.rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
           script << "\nend\n"
         end
-        program = Ripper.sexp(script).flatten
-        str_num = program.flatten.count { |t| t == :string_literal }
-        tstr_num = program.each_with_index.count do |t, i|
-          lint_config.ignore_methods.any? do |m|
-            [t, program[i + 1], program[i + 2]] == [:fcall, :@ident, m.to_s] ||
-              [t, program[i + 1], program[i + 2]] == [:command, :@ident, m.to_s]
+        sexp = Ripper.sexp(script)
+
+        string_literal_found = false
+        walk = -> (sexp) do
+          return if !sexp.is_a?(Array)
+          return if lint_aref?(sexp)
+          return if lint_config.ignore_methods.any? { |m| lint_command?(sexp, m) || lint_method_call?(sexp, m) }
+          return if lint_config.ignore_keys.any? { |k| lint_assoc_new?(sexp, k) }
+
+          if lint_string_literal?(sexp)
+            string_literal_found = true
+            return
+          end
+
+          sexp.each do |sexp|
+            walk.(sexp)
           end
         end
 
-        ignore_key_num = program.count.times.count do |i|
-          lint_config.ignore_keys.any? do |k|
-            program[i, 3] == [:assoc_new, :@label, "#{k}:"] && program[i + 5] == :string_literal
-          end
-        end
+        walk.(sexp)
 
-        ignore_aref_key_num = program.count.times.count do |i|
-          program[i, 2] == [:aref, :vcall] && program[i+6, 2] == [:args_add_block, :string_literal]
-        end
-
-        str_num != tstr_num + ignore_key_num + ignore_aref_key_num
+        string_literal_found
       end
 
     end
