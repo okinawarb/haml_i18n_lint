@@ -19,32 +19,7 @@ module HamlI18nLint
       def lint_attribute_need_i18n?
         attributes_hashes = lint_attributes_hashes
         attributes_hashes.any? do |attributes_hash|
-          sexp = Ripper.sexp("{#{attributes_hash}}")
-          program, ((hash,(assoclist_from_args,assocs)),) = sexp
-
-          unless program == :program &&
-                 hash == :hash &&
-                 assoclist_from_args == :assoclist_from_args &&
-                 assocs.respond_to?(:all?) &&
-                 assocs.all? { |assoc| assoc.first == :assoc_new }
-            raise AttributesParseError
-          end
-
-          assocs.any? do |assoc|
-            assoc_new, (_label, key, _pos), value = assoc
-
-            next if lint_config.ignore_keys.any? { |k| "#{k}:" == key }
-
-            raise AttributesParseError unless assoc_new == :assoc_new
-
-            string_literal, *strings = value
-            next unless string_literal == :string_literal
-            strings.any? do |(string_content, (tstring_content,val,pos))|
-              string_content == :string_content &&
-                tstring_content == :@tstring_content &&
-                lint_config.need_i18n?(val)
-            end
-          end
+          script_need_i18n?("{#{attributes_hash}}")
         end
       end
 
