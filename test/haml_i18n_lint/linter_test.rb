@@ -93,6 +93,17 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { !lint('hi').success? }
   end
 
+  def test_dynamic_symbol_key
+    with_config(config: "def ignore_keys; super + %w(data-href); end") do |config_path|
+      options = HamlI18nLint::Options.new
+      options.config_path = config_path
+      config = HamlI18nLint::Config.new(options)
+      @linter = HamlI18nLint.linter.new(config)
+
+      assert { lint(%q|.fb-like{'data-href': 'http://example.com/'}|).success? }
+    end
+  end
+
   private
 
   def lint(template)
