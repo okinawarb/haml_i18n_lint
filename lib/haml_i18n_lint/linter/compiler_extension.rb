@@ -107,6 +107,13 @@ module HamlI18nLint
         sexp.first == :string_literal
       end
 
+      def lint_string_literal_need_i18n?(sexp)
+        exps = sexp.flatten
+        exps.each_with_index.any? do |exp, i|
+          exp == :@tstring_content && exps[i + 1].is_a?(String) && lint_config.need_i18n?(exps[i + 1])
+        end
+      end
+
       def script_need_i18n?(script)
         script = script.dup
         if Ripper.lex(script.rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
@@ -121,7 +128,7 @@ module HamlI18nLint
           return if lint_config.ignore_methods.any? { |m| lint_command?(sexp, m) || lint_method_call?(sexp, m) }
           return if lint_config.ignore_keys.any? { |k| lint_assoc_new?(sexp, k) }
 
-          if lint_string_literal?(sexp)
+          if lint_string_literal?(sexp) && lint_string_literal_need_i18n?(sexp)
             string_literal_found = true
             return
           end

@@ -50,7 +50,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
       %link{href: "http://example.com", rel: "stylesheet", media: "all"} 2
     HAML
     assert { lint(<<~'HAML').success? }
-      %span= @foo.bars.count
+      %span= "0 <" + @foo.bars.count.to_s
     HAML
     assert { lint(<<~'HAML').success? }
       = params['foo']
@@ -79,7 +79,7 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { !lint("= foo do  \n  hello").success? }
     assert { !lint("= foo do |f|  \n  hello").success? }
     assert { !lint(<<~'HAML').success? }
-      %span= "#" + @foo.bars.count.to_s
+      %span= "count: " + @foo.bars.count.to_s
     HAML
   end
 
