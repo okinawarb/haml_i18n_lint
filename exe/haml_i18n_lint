@@ -7,7 +7,7 @@ Version = HamlI18nLint::VERSION
 options = HamlI18nLint::Options.new
 
 opt = OptionParser.new
-opt.banner = 'Usage: haml-i18n-lint [OPTION]... [FILE]...'
+opt.banner = 'Usage: haml_i18n_lint [OPTION]... [FILE]...'
 opt.on('-c FILE', '--config=FILE', 'configuration file') do |config_path|
   options.config_path = config_path
 end

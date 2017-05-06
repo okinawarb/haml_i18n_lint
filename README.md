@@ -26,10 +26,10 @@ Or install it yourself as:
 
 ## Usage
 
-    $ haml-i18n-lint --version
-    haml-i18n-lint 0.1.0
-    $ haml-i18n-lint --help
-    Usage: haml-i18n-lint [OPTION]... [FILE]...
+    $ haml_i18n_lint --version
+    haml_i18n_lint 0.1.0
+    $ haml_i18n_lint --help
+    Usage: haml_i18n_lint [OPTION]... [FILE]...
     -c, --config=FILE                configuration file
     -f, --files=PATTERN              pattern to find Haml template files, default: -f '**/*.haml'
 
@@ -46,7 +46,7 @@ The configuration file sample:
     #
     # The default output format is like following:
     #
-    # $ haml-i18n-lint
+    # $ haml_i18n_lint
     # test/fixtures/hi.html.haml:4
     # 3:    %head
     # 4:      %title Hi
