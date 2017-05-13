@@ -21,10 +21,10 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.3.0'
 
-  spec.add_dependency "haml"
-  spec.add_development_dependency "appraisal"
-  spec.add_development_dependency "yard"
-  spec.add_development_dependency "test-unit"
+  spec.add_dependency "haml", ">= 4.0.0", "< 5.1"
+  spec.add_development_dependency "appraisal", "~> 2.2"
+  spec.add_development_dependency "yard", "~> 0.9"
+  spec.add_development_dependency "test-unit", "~> 3.2"
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
 end
