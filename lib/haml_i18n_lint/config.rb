@@ -19,13 +19,15 @@ module HamlI18nLint
 
     # Output the formatted result
     #
-    # @param result [Linter::Result] the lint result
-    def report(result)
-      print '.' and return if result.success?
+    # @param result [Linter::ResultSet] the lint result
+    def report(result_set)
+      print '.' and return if result_set.success?
 
       puts
-      file = File.readlines(result.filename)
-      result.matched_nodes.each do |node|
+      files = Hash.new { |h, k| h[k] = File.readlines(k) }
+      result_set.each do |result|
+        file = files[result.filename]
+        node = result.node
         puts "#{result.filename}:#{node.line}"
         puts "#{node.line-1}:  #{file[node.line - 2]}" if file[node.line - 2] && !(node.line - 2).negative?
         puts "#{node.line}:  #{file[node.line - 1]}"

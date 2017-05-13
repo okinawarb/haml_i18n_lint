@@ -6,17 +6,42 @@ module HamlI18nLint
     # Raised if failed to parse the attributes hash
     class AttributesParseError < StandardError; end
 
-    # The lint result of the file
-    class Result < Struct.new(:filename, :matched_nodes)
-      # @!attribute [r] matched_nodes
-      #   @return [Array<Haml::Parser::ParseNode>] the nodes that needs i18n.
-
+    # The lint result
+    class Result < Struct.new(:filename, :node, :text)
       # @!attribute [r] filename
       #   @return [String] name of the linted file
 
+      # @!attribute [r] node
+      #   @return [Haml::Parser::ParseNode] the node that needs i18n.
+
+      # @!attribute [r] text
+      #   @return [String] the text that needs i18n.
+    end
+
+    # The lint results
+    class ResultSet
+      include Enumerable
+
+      # @param filename [String]
+      def initialize
+        @results = []
+      end
+
+      # @param result [Result] the result
+      def add_result(result)
+        @results << result
+      end
+
+      # @yield [result] Gives each result to a block.
+      def each
+        @results.each do |r|
+          yield r
+        end
+      end
+
       # @return [true, false] passed lint or not.
       def success?
-        matched_nodes.empty?
+        count.zero?
       end
     end
 
@@ -30,7 +55,7 @@ module HamlI18nLint
     #
     # @param filename [String] the filename
     # @param template [String] the Haml template
-    # @return [Linter::Result] the result of lint
+    # @return [Linter::ResultSet] the result of lint
     # @raise [Linter::AttributesParseError] if failed to parse attributes hash in the template.
     def lint(filename:, template:)
       haml_options = ::Haml::Options.new
@@ -38,7 +63,6 @@ module HamlI18nLint
       node = parse(haml_options, template)
       compiler(haml_options).compile(node)
     end
-
 
     private
 
@@ -52,7 +76,7 @@ module HamlI18nLint
 
     def compiler(haml_options)
       config = @config
-      result = Result.new(haml_options[:filename], [])
+      result_set = ResultSet.new
 
       ext = compiler_extension
       compiler_result_extension = Module.new do
@@ -60,7 +84,7 @@ module HamlI18nLint
 
         define_method(:compile) do |node|
           super(node)
-          result
+          result_set
         end
 
         private
@@ -69,8 +93,8 @@ module HamlI18nLint
           config
         end
 
-        define_method(:lint_add_matched_node) do |node|
-          result.matched_nodes << node
+        define_method(:lint_add) do |text|
+          result_set.add_result(Result.new(haml_options[:filename], @node, text))
         end
       end
 

@@ -4,36 +4,41 @@ module HamlI18nLint
 
       def compile_script
         super
-        lint_add_matched_node(@node) if script_need_i18n?(@node.value[:text])
+        lint_script(@node.value[:text])
       end
 
       def compile_plain
         super
-        lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value[:text])
+        text = @node.value[:text]
+        lint_add(text) if lint_config.need_i18n?(text)
       end
 
       def lint_attributes_hashes
         @node.value[:attributes_hashes]
       end
 
-      def lint_attribute_need_i18n?
-        attributes_hashes = lint_attributes_hashes
-        attributes_hashes.any? do |attributes_hash|
-          script_need_i18n?("{#{attributes_hash}}")
+      def lint_attributes
+        lint_attributes_hashes.any? do |attributes_hash|
+          lint_script("{#{attributes_hash}}")
         end
       end
 
       def compile_tag
         super
         if @node.value[:parse]
-          lint_add_matched_node(@node) if script_need_i18n?(@node.value[:value])
-
+          lint_script(@node.value[:value])
         else
-          lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value[:value])
+          value = @node.value[:value]
+          lint_add(value) if lint_config.need_i18n?(value)
         end
-        lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value.dig(:attributes, 'placeholder') || "")
-        lint_add_matched_node(@node) if lint_config.need_i18n?(@node.value.dig(:attributes, 'value') || "")
-        lint_add_matched_node(@node) if lint_attribute_need_i18n?
+
+        placeholder = @node.value.dig(:attributes, 'placeholder') || ""
+        lint_add(placeholder) if lint_config.need_i18n?(placeholder)
+
+        value = @node.value.dig(:attributes, 'value') || ""
+        lint_add(value) if lint_config.need_i18n?(value)
+
+        lint_attributes
       end
 
       private
@@ -101,7 +106,7 @@ module HamlI18nLint
         lint_command?(sexp, m) || lint_fcall?(sexp, m) || lint_call?(sexp, m)
       end
 
-      def script_need_i18n?(script)
+      def lint_script(script)
         script = script.dup
         if Ripper.lex(script.rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
           script << "\nend\n"
@@ -127,7 +132,7 @@ module HamlI18nLint
 
         walk.(sexp)
 
-        string_literal_found
+        lint_add(script) if string_literal_found
       end
 
     end

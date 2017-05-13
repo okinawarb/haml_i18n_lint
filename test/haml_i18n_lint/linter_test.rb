@@ -85,11 +85,8 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
   end
 
   def test_lint_result
-    assert { lint('123').matched_nodes.empty? }
-    assert { lint('123').filename == 'test.html.haml' }
     assert { lint('123').success? }
-
-    assert { !lint('hi').matched_nodes.empty? }
+    assert { lint('hi').all? {|r| r.filename == 'test.html.haml' } }
     assert { !lint('hi').success? }
   end
 
