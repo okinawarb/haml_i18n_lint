@@ -1,5 +1,3 @@
-require 'ripper'
-
 module HamlI18nLint
   # Linter linting a Haml template
   class Linter

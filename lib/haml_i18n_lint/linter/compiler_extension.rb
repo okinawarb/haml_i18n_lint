@@ -1,3 +1,5 @@
+require "haml_i18n_lint/ruby_parser"
+
 module HamlI18nLint
   class Linter
     module CompilerExtension
@@ -111,7 +113,7 @@ module HamlI18nLint
         if Ripper.lex(script.rstrip).any? { |(_, on_kw, kw_do)| on_kw == :on_kw && kw_do == "do" }
           script << "\nend\n"
         end
-        sexp = Ripper.sexp(script)
+        sexp = RubyParser.sexp(script)
 
         string_literal_found = false
         walk = -> (sexp) do
@@ -121,7 +123,7 @@ module HamlI18nLint
           return if lint_config.ignore_keys.any? { |k| lint_assoc_new?(sexp, k) }
 
           if lint_string_literal?(sexp) && lint_string_literal_need_i18n?(sexp)
-            string_literal_found = true
+            string_literal_found = sexp[1]
             return
           end
 
@@ -132,7 +134,7 @@ module HamlI18nLint
 
         walk.(sexp)
 
-        lint_add(script) if string_literal_found
+        lint_add(string_literal_found) if string_literal_found
       end
 
     end
