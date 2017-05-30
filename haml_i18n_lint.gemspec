@@ -8,9 +8,6 @@ Gem::Specification.new do |spec|
   spec.version       = HamlI18nLint::VERSION
   spec.authors       = ["Seiei Miyagi"]
   spec.email         = ["hanachin@gmail.com"]
-  spec.cert_chain    = ["certs/hanachin.pem"]
-  spec.signing_key   = File.expand_path("~/.ssh/gem-private_key.pem") if $0 =~ /gem\z/
-
   spec.summary       = "find out not translated yet plain text from your Haml template"
   spec.homepage      = "https://github.com/okinawarb/haml_i18n_lint"
   spec.license       = "MIT"
