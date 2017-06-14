@@ -90,6 +90,17 @@ class HamlI18nLint::LinterTest < HamlI18nLint::TestCase
     assert { !lint('hi').success? }
   end
 
+  def test_string_literal_key
+    with_config(config: "def ignore_keys; super + %w(content http-equiv); end") do |config_path|
+      options = HamlI18nLint::Options.new
+      options.config_path = config_path
+      config = HamlI18nLint::Config.new(options)
+      @linter = HamlI18nLint.linter.new(config)
+
+      assert { lint(%q|%meta{content: 'text/html; charset=UTF-8', 'http-equiv' => 'Content-Type'}/|).success? }
+    end
+  end
+
   def test_dynamic_symbol_key
     with_config(config: "def ignore_keys; super + %w(data-href); end") do |config_path|
       options = HamlI18nLint::Options.new

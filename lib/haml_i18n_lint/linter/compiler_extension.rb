@@ -59,6 +59,12 @@ module HamlI18nLint
         case type
         when :@label
           return k == "#{key}:"
+        when :string_literal
+          _type, _s, _lineno, k = assoc_key
+          return k.size == 2 &&
+                 k.first == :string_content &&
+                 k.last[0] == :@tstring_content &&
+                 k.last[1] == key
         when :dyna_symbol
           return k.size == 2 &&
                  k.first == :string_content &&
